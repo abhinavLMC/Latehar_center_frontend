@@ -49,7 +49,7 @@ const SideNav = ({trigger, collapsed, sidenavWidth, collapseWidth, setOpenDrawer
   }
 
   const logoObj = {
-    url: collapsed ? "/images/LMC_icon.png" : "/images/LMC_logo.webp",
+    url: collapsed ? "/images/LMC_logo.png" : "/images/LMC_logo.png",
     width: collapsed ? 50 : 240,
     height: collapsed ? 50 : 70,
     alt: collapsed ? "Brand Image Icon" : "Brand Logo",

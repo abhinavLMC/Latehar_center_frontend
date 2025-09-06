@@ -1,6 +1,7 @@
 
 import NextImage from "@components/NextImage";
 import { Button, Col, Form, Input, Row } from "antd";
+import Image from "next/image";
 import React from "react";
 import { useLoginHandler } from "src/hook/useAuth";
 
@@ -24,12 +25,40 @@ const Login = () => {
               <Col md={16}>
                 <div className="logo">
                   <NextImage
-                    src="/images/LMC_logo.webp"
+                    src="/images/LMC_logo.png"
                     alt="brand name"
                     width={240}
                     height={70}
                   />
                   {/* <div style={{background: '#ddd', height: '60px', margin: '15px'}}></div> */}
+                </div>
+
+                {/* Government Logos */}
+                <div className="d-flex align-items-center justify-content-center government-logos-login" style={{ gap: '20px', marginTop: '20px' }}>
+                  <Image
+                    src="/images/PMKKKY_Logo.png"
+                    alt="PMKKKY Logo"
+                    width={120}
+                    height={120}
+                    style={{ objectFit: 'contain' }}
+                    className="logo-img"
+                  />
+                  <Image
+                    src="/images/Jharkhand-Sarkar-logo.png"
+                    alt="Jharkhand Government Logo"
+                    width={100}
+                    height={100}
+                    style={{ objectFit: 'contain' }}
+                    className="logo-img"
+                  />
+                  <Image
+                    src="/images/NHM.png"
+                    alt="National Rural Health Mission Logo"
+                    width={100}
+                    height={100}
+                    style={{ objectFit: 'contain' }}
+                    className="logo-img"
+                  />
                 </div>
 
                 {/* <div className="mb-4">

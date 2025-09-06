@@ -104,6 +104,8 @@ const HeaderNav = ({
     <Header
       style={{
         marginLeft: collapsed ? `${marginWidth}px` : `${marginWidth}px`,
+        height: '120px',
+        padding: '0 24px',
       }}
       className="bg-white fix-header"
     >
@@ -128,28 +130,28 @@ const HeaderNav = ({
             )}
             
             {/* Government Logos */}
-            <div className="d-flex align-items-center ms-4 government-logos" style={{ gap: '12px' }}>
+            <div className="d-flex align-items-center ms-4 government-logos" style={{ gap: '40px' }}>
               <Image
                 src="/images/PMKKKY_Logo.png"
                 alt="PMKKKY Logo"
-                width={100}
-                height={100}
+                width={120}
+                height={120}
                 style={{ objectFit: 'contain' }}
                 className="logo-img"
               />
               <Image
                 src="/images/Jharkhand-Sarkar-logo.png"
                 alt="Jharkhand Government Logo"
-                width={40}
-                height={40}
+                width={100}
+                height={100}
                 style={{ objectFit: 'contain' }}
                 className="logo-img"
               />
               <Image
                 src="/images/NHM.png"
                 alt="National Rural Health Mission Logo"
-                width={40}
-                height={40}
+                width={120}
+                height={120}
                 style={{ objectFit: 'contain' }}
                 className="logo-img"
               />
