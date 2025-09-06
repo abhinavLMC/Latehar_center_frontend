@@ -1,0 +1,35 @@
+.ant-form-item .ant-form-item-label >label::after {
+    position: relative !important;
+}
+.ant-form-item .ant-form-item-label >label::before {
+    position: absolute;
+    right: 0px;
+    top: 5px;
+}
+.ant-layout-header {
+    box-shadow: 0px 2px 25px 0px #eee;
+    padding: 0 20px !important;
+}
+.ant-menu-light.ant-menu-root.ant-menu-vertical {
+    border-inline-end: 0;
+}
+.ant-notification .ant-notification-notice-wrapper .ant-notification-notice {
+    padding: 16px !important;
+}
+.ant-notification-notice-wrapper .ant-notification-notice-with-icon .ant-notification-notice-description {
+    margin-inline-start: 32px !important;
+    margin-inline-end: 32px !important;
+}
+.ant-notification .ant-notification-notice-wrapper .ant-notification-notice-close {
+    top: 16px !important;
+    inset-inline-end: 18px !important;
+}
+.ant-notification-notice-message:empty {
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    .ant-menu {
+        font-size: 14px;
+    }
+}

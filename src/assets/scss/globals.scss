@@ -1,0 +1,423 @@
+/* ==================font family============= */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap');
+
+
+@font-face {
+	font-family: "Helvetica Neue";
+	src: url("../fonts/HelveticaNeue.eot");
+	src: url("../fonts/HelveticaNeue.eot?#iefix") format("embedded-opentype"),
+		url("../fonts/HelveticaNeue.woff2") format("woff2"),
+		url("../fonts/HelveticaNeue.woff") format("woff"),
+		url("../fonts/HelveticaNeue.svg#HelveticaNeue") format("svg");
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "HelveticaNeue-Medium";
+	src: url("../fonts/HelveticaNeue-Medium.woff2") format("woff2"),
+		url("../fonts/HelveticaNeue-Medium.woff") format("woff");
+	font-weight: normal;
+	font-style: normal;
+}
+
+$placeholder-color: rgba(139, 139, 139, 0.88);
+
+.ant-input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: $placeholder-color !important;
+}
+.ant-input::-moz-placeholder { /* Firefox 19+ */
+  color: $placeholder-color !important;
+}
+.ant-input:-ms-input-placeholder { /* IE 10+ */
+  color: $placeholder-color !important;
+}
+.ant-input:-moz-placeholder { /* Firefox 18- */
+  color: $placeholder-color !important;
+}
+.cursor-pointer {
+	cursor: pointer;
+}
+/*============preset for default designning===========*/
+::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+
+::-webkit-scrollbar-track {
+	background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: #cfd3d6;
+	border-radius: 10px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+ul,
+li {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	-webkit-font-smoothing: antialiased;
+	min-height: 100%;
+	overflow-x: hidden;
+	line-height: inherit;
+	background: radial-gradient(rgb(210, 241, 223), rgb(211, 215, 250), rgb(186, 216, 244)) 0% 0%/400% 400%;
+	font-size: 14px;
+	font-family: 'Roboto', sans-serif !important;
+	font-weight: 400;
+	margin: 0;
+}
+
+* {
+	font-family: 'Roboto', sans-serif !important;
+}
+
+a,
+button,
+input[type="submit"] {
+	text-decoration: none;
+	transition: all 200ms ease-in-out 0s;
+}
+
+a:focus,
+a:hover input[type="text"]:focus,
+.btn:focus,
+input[type="tel"],
+input[type="email"]:focus,
+input[type="password"]:focus,
+button:focus,
+input[type="submit"]:focus,
+input[type="button"]:focus {
+	text-decoration: none;
+	outline: none;
+	box-shadow: none;
+}
+
+ul {
+	padding: 0;
+	margin: 0;
+}
+
+li {
+	list-style: none;
+}
+
+::-webkit-input-placeholder {
+	/* Chrome/Opera/Safari */
+	color: var(--text-light) !important;
+	opacity: 1;
+}
+
+::-moz-placeholder {
+	/* Firefox 19+ */
+	color: var(--text-light) !important;
+	opacity: 1;
+}
+
+:-ms-input-placeholder {
+	/* IE 10+ */
+	color: var(--text-light) !important;
+	opacity: 1;
+}
+
+/* side-nav */
+.fix-sidebar {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    top: 0;
+    background-color: #fff;
+    z-index: 1000;
+    border-right: 1px solid #eee;
+}
+.logo {
+    display: flex;
+    margin: 30px auto;
+}
+
+.fix-header {
+	position: sticky;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 99;
+	display: flex;
+}
+
+.fix-sidebar .ant-menu .ant-menu-item {
+    display: flex;
+    padding: 25px 15px;
+    align-items: center;
+}
+
+.draggble {
+	cursor: grab;
+}
+
+.draggble:hover {
+	background-color: #FAF7FA;
+}
+
+.input-search .ant-input-search-button {
+	height: 40px;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px;
+	border-left: none;
+	border-color: #E1E7ED;
+}
+
+.input-search .ant-input-search-button:hover {
+	background-color: transparent !important;
+	color: initial !important;
+	border-left: 0px !important;
+	border-color: #E1E7ED !important;
+}
+
+.file-uploader .borderLess .ant-upload.ant-upload-select .ant-upload {
+    border: 0 !important;
+}
+.img-fluid {
+	max-width: 100%;
+}
+.min-height-100-vh {
+	min-height: 100vh;
+}
+.min-height-100 {
+	min-height: 100%;
+}
+// login page style
+.login-box {
+	background-color: #fff;
+	height: 100%;;
+}
+.login-container {
+	min-height: 100vh;
+}
+.login-bg {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+}
+.login-bg img {
+	width: 50%;
+	margin: auto;
+}
+.test-master-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+	text-align: center;
+    border: 2px solid transparent !important;
+	transition: 0.3s ease-in-out all;
+	height: calc(100% - 18px);
+}
+.test-master-card:hover {
+    border: 2px solid var(--primary-border-color);
+}
+.test-master-form .ant-form-item-label>label {
+    font-size: 0.8rem !important;
+}
+.login-bg svg {
+    max-width: 50%;
+}
+.permission-header {
+    padding: 15px;
+    background: #f7f7f7;
+}
+.permission-body {
+    padding: 10px 15px;
+}
+.access-img {
+	animation: show-img-delay 2s linear;
+}
+.number-cell {
+	color: #fff;
+	background-color: #B06AB3;
+	padding: 5px 9px 5px 9px;
+	line-height: 1;
+	border-radius: 15px;
+}
+
+.menu-height {
+	height: calc(100% - 100px);
+	overflow-y: auto;
+}
+.header-left-panel {
+	display: flex;
+	align-items: center;
+}
+.header-menu-list {
+    display: flex;
+    gap: 20px;
+}
+
+/* Government Logos Styles */
+.government-logos {
+    .logo-img {
+        transition: transform 0.2s ease;
+        &:hover {
+            transform: scale(1.05);
+        }
+    }
+}
+
+/* Responsive styles for government logos */
+@media (max-width: 1200px) {
+    .government-logos {
+        gap: 8px !important;
+        .logo-img {
+            width: 50px !important;
+            height: 35px !important;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .government-logos {
+        display: none !important;
+    }
+}
+/* main-wrapper */
+.main-cont-wrap {
+	padding: 20px;
+	background-color: #f6f6f6;
+}
+.form-content h4 {
+    margin-bottom: 20px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    display: inline-flex;
+    padding: 5px 8px;
+    border-radius: 4px;
+}
+.title-row {
+	margin-bottom: 20px;
+}
+.title-row .page-title {
+	font-size: 1.3rem;
+	font-weight: 600;
+}
+.modal-height .ant-modal-content .ant-modal-body {
+	max-height: 60vh !important;
+	overflow: hidden;
+	overflow-y: scroll;
+}
+
+.file-uploader .ant-upload.ant-upload-select {
+	width: 100%;
+	cursor: pointer;
+}
+.file-uploader .ant-upload.ant-upload-select .ant-upload {
+    width: 100%;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent !important;
+    border: 2px dashed #C2C5D3 !important;
+    border-radius: 5px;
+}
+.file-uploader .input-size .ant-upload {
+	min-height: 30px !important;
+	font-size: 0.8rem;
+}
+
+// pdf report css
+.report {
+	position: relative;
+	background-color: #fff;
+	padding: 15px;
+	letter-spacing: 0.08px;
+}
+.report-header {
+	border-bottom: 2px solid #333;
+	padding-bottom: 15px;
+}
+.report p, .report table{
+	line-height: 26px;
+	font-size: 18px;
+}
+.sign-img {
+	max-height: 90px;
+}
+.report-header h2 {
+	margin-bottom: 10px;
+	font-size: 30px;
+    line-height: 1;
+}
+.brand-logo {
+	margin-right: 0;
+    max-width: 70%;
+}
+.report-table .ant-table-tbody>tr>td,
+.report-table .ant-table-thead>tr>th {
+	padding: 10px !important;
+}
+// .report-table .ant-table-thead>tr>th {
+// 	background-color:  var(--primary-bg-color-4) !important;
+// }
+
+.modal-scrollbar-adjust {
+	padding-right: 15px;
+	margin-right: -21px;
+	max-height: 470px;
+	overflow-y: scroll;
+}
+.test-wrapper {
+	position: relative;
+}
+.test-wrapper p {
+    position: absolute;
+    top: -35px;
+    right: -4px;
+    background: #ffffff;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-weight: 600;
+}
+.history-row {
+	width: 100%;
+	align-items: flex-start;
+}
+.history-row > *:first-child{
+	width: 30%;
+}
+.history-row > *:last-child{
+	width: 70%;
+}
+
+@keyframes show-img-delay {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+@media (max-width: 768px) {
+    .fix-sidebar .ant-menu .ant-menu-item {
+    	padding: 20px 15px;
+	}
+	.test-master-card {
+		min-height: calc(140px + 24px);
+	}
+	.title-row .page-title {
+    	font-size: 1rem;
+	}
+}

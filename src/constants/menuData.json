@@ -1,0 +1,53 @@
+[
+  {
+    "key": "workforce-management",
+    "path": "/workforce-management",
+    "title": "Patient Management",
+    "icon": "TeamOutlined",
+    "breadcrumb": false
+  },
+  {
+    "key": "request-booking",
+    "path": "/request-booking",
+    "title": "Request Booking",
+    "icon": "CalendarOutlined",
+    "breadcrumb": false
+  },
+  {
+    "key": "consultation-management",
+    "path": "/consultation-management",
+    "title": "Consultation Management",
+    "icon": "VideoCameraOutlined",
+    "breadcrumb": false
+  },
+  {
+    "key": "health-checkup-management",
+    "path": "/health-checkup-management",
+    "title": "Health Checkup Management",
+    "icon": "ForkOutlined",
+    "breadcrumb": false
+  },
+  {
+    "key": "health-checkup-report",
+    "path": "/health-checkup-report",
+    "title": "Health Checkup Report",
+    "icon": "FileTextOutlined",
+    "breadcrumb": false,
+    "pagemenu": []
+  },
+  {
+    "key": "ABHA",
+    "path": "/abha",
+    "title": "ABHA",
+    "icon": "FileTextOutlined",
+    "breadcrumb": false,
+    "pagemenu": []
+  },
+  {
+    "key": "add-health-checkup",
+    "title":"Add Health Checkup",
+    "icon": "PlusOutlined",
+    "label": "Add Health Checkup",
+    "path": "/health-checkup-management/add-health-checkup"
+  }
+]
