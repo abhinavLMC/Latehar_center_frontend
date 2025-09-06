@@ -3,15 +3,19 @@ const NEW_SERVER_BASE_URL = process.env.NEXT_PUBLIC_NEW_API_BASE_URL; // New ser
 // localhost:3001
 
 const development = {
-  API_BASE_URL: BASE_URL || "http://localhost:3001/api",
+  // API_BASE_URL: BASE_URL || "http://localhost:3001/api",
+  API_BASE_URL: BASE_URL || "https://backend.lastmilecare.in/api",
   API_BASE_VERSION: 'v1',
-  MOBILE_API_BASE_URL: NEW_SERVER_BASE_URL || "http://localhost:3000",
+  // MOBILE_API_BASE_URL: NEW_SERVER_BASE_URL || "http://localhost:3000",
+  MOBILE_API_BASE_URL: NEW_SERVER_BASE_URL || "https://mobile-api.lastmilecare.in",
 };
 // dev prod : http://13.201.81.233:3002/api
 const production = {
-  API_BASE_URL: BASE_URL || "http://localhost:3001/api",
+  // API_BASE_URL: BASE_URL || "http://localhost:3001/api",
+  API_BASE_URL: BASE_URL || "https://backend.lastmilecare.in/api",
   API_BASE_VERSION: "v1",
-  MOBILE_API_BASE_URL: NEW_SERVER_BASE_URL || "http://localhost:3000",
+  // MOBILE_API_BASE_URL: NEW_SERVER_BASE_URL || "http://localhost:3000",
+  MOBILE_API_BASE_URL: NEW_SERVER_BASE_URL || "https://mobile-api.lastmilecare.in",
 };
 
 const env = (): {

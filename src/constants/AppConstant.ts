@@ -22,7 +22,8 @@ export const ALL_ROUTE = {
   HEALTH_CHECKUP_MANAGEMENT,
   HEALTH_CHECKUP_REPORT,
   REQUEST_BOOKING,
-  CONSULTATION_MANAGEMENT
+  CONSULTATION_MANAGEMENT,
+  PRESCRIPTION_MANAGEMENT_ROUTE
 };
 
 export const pageNameArray = [
@@ -31,7 +32,8 @@ export const pageNameArray = [
   "health_checkup",
   "health_report",
   "request_booking",
-  "consultation_management"
+  "consultation_management",
+  "prescriptionEdit"
 ];
 
 export const REQUIRED_MESSAGE = "This field is required";

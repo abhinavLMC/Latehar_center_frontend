@@ -47,7 +47,7 @@ interface Prescription {
   prescription_slip_image?: string;
   vitals: Vitals;
   isReady: boolean;
-  medicines: PrescriptionMedicine[]; // ✅ Medicines list
+  medicines: PrescriptionMedicine[];
 }
 
 interface Props {
@@ -76,7 +76,7 @@ const EditPrescriptionPage: React.FC<Props> = ({ consultationId }): JSX.Element 
         if (!response.ok) throw new Error("Failed to fetch prescription");
   
         const data = await response.json();
-        console.log('Fetched prescription data:', data); // Debug log
+        console.log('Fetched prescription data:', data);
         setPrescription(data);
         setIsReady(data.isReady);
   
@@ -87,7 +87,7 @@ const EditPrescriptionPage: React.FC<Props> = ({ consultationId }): JSX.Element 
         if (!medicinesResponse.ok) throw new Error("Failed to fetch medicines");
   
         const medicinesData = await medicinesResponse.json();
-        setMedicines(medicinesData || []); // ✅ Ensure medicines are loaded
+        setMedicines(medicinesData || []);
   
       } catch (error) {
         if (error instanceof Error){
@@ -100,12 +100,10 @@ const EditPrescriptionPage: React.FC<Props> = ({ consultationId }): JSX.Element 
     fetchPrescription();
   }, [consultationId]);
   
-
   useEffect(() => {
     if (prescription) {
-      console.log('Setting form values with vitals:', prescription.vitals); // Debug log
+      console.log('Setting form values with vitals:', prescription.vitals);
       
-      // Make a copy of the prescription to avoid reference issues
       const formValues = {
         ...prescription,
         follow_up: prescription.follow_up ? moment(prescription.follow_up) : null,
@@ -131,7 +129,7 @@ const EditPrescriptionPage: React.FC<Props> = ({ consultationId }): JSX.Element 
     setIsReady(checked);
   };
 
-  /** ✅ Medicines Section */
+  // Medicines Management Functions
   const addMedicineRow = () => {
     setMedicines([
       ...medicines,
@@ -143,16 +141,16 @@ const EditPrescriptionPage: React.FC<Props> = ({ consultationId }): JSX.Element 
     try {
       for (const medicine of newMedicines) {
         const payload = {
-          prescription_id: prescription?.prescription_id, // Attach prescription ID
+          prescription_id: prescription?.prescription_id,
           medicine_name: medicine.medicine_name,
-          medicine_type: medicine.medicine_type, // ✅ Added missing medicine_type field
+          medicine_type: medicine.medicine_type,
           dosage: medicine.dosage,
           frequency: medicine.frequency,
           duration: medicine.duration,
           instructions: medicine.instructions,
         };
 
-        console.log('Creating new medicine with payload:', payload); // Debug log to verify medicine_type is included
+        console.log('Creating new medicine with payload:', payload);
 
         const response = await fetch(
           `${MOBILE_API_BASE_URL}/api/prescription-medicines`,
@@ -174,14 +172,12 @@ const EditPrescriptionPage: React.FC<Props> = ({ consultationId }): JSX.Element 
   }
   };
   
-  
   const updateMedicineRow = (index: number, key: keyof PrescriptionMedicine, value: string | number | string[]) => {
     const updatedMedicines = [...medicines];
     const medicine = updatedMedicines[index];
     (medicine[key] as any) = value;
     setMedicines(updatedMedicines);
 
-    // Mark this medicine as changed if it has an ID
     if (medicine.prescription_medicine_id) {
       setChangedMedicines(prev => ({
         ...prev,
@@ -194,8 +190,6 @@ const EditPrescriptionPage: React.FC<Props> = ({ consultationId }): JSX.Element 
     if (!medicine.prescription_medicine_id) return;
     
     setMedicineLoading(prev => ({ ...prev, [medicine.prescription_medicine_id!]: true }));
-
-    // console.log("medicine is " ,medicine)
     
     try {
       const response = await fetch(
@@ -218,7 +212,6 @@ const EditPrescriptionPage: React.FC<Props> = ({ consultationId }): JSX.Element 
         )
       );
       
-      // Clear the changed state for this medicine
       setChangedMedicines(prev => {
         const updated = { ...prev };
         delete updated[medicine.prescription_medicine_id!];
@@ -264,7 +257,6 @@ const EditPrescriptionPage: React.FC<Props> = ({ consultationId }): JSX.Element 
     const medicine = medicines[index];
     
     if (medicine.prescription_medicine_id) {
-      // Show confirmation modal before deleting
       Modal.confirm({
         title: "Delete Medicine",
         content: "Are you sure you want to delete this medicine?",
@@ -276,7 +268,6 @@ const EditPrescriptionPage: React.FC<Props> = ({ consultationId }): JSX.Element 
         },
       });
     } else {
-      // If it's a new medicine that hasn't been saved, just remove it from the state
       setMedicines(prev => prev.filter((_, i) => i !== index));
     }
   };
@@ -284,7 +275,6 @@ const EditPrescriptionPage: React.FC<Props> = ({ consultationId }): JSX.Element 
   const handleUpdate = async (values: any) => {
     setLoading(true);
     try {
-      // Transform multi-value fields to always be arrays
       const payload = {
         ...values,
         lab: Array.isArray(values.lab) ? values.lab : values.lab ? [values.lab] : [],
@@ -308,9 +298,9 @@ const EditPrescriptionPage: React.FC<Props> = ({ consultationId }): JSX.Element 
         }
       };
       
-      console.log('Sending payload to API:', payload); // Debug log
+      console.log('Sending payload to API:', payload);
       
-      // ✅ Step 1: Update Prescription
+      // Step 1: Update Prescription
       const response = await fetch(
         `${MOBILE_API_BASE_URL}/api/prescriptions/${prescription?.prescription_id}`,
         {
@@ -322,7 +312,7 @@ const EditPrescriptionPage: React.FC<Props> = ({ consultationId }): JSX.Element 
   
       if (!response.ok) throw new Error("Failed to update prescription");
   
-      // ✅ Step 2: Identify New Medicines and Create Them
+      // Step 2: Identify New Medicines and Create Them
       const newMedicines = medicines.filter((med) => !med.prescription_medicine_id);
       if (newMedicines.length > 0) {
         await createNewMedicines(newMedicines);
@@ -338,7 +328,6 @@ const EditPrescriptionPage: React.FC<Props> = ({ consultationId }): JSX.Element 
     }
   };
   
-  // Function to download the prescription PDF
   const handleDownloadPDF = () => {
     if (!prescription?.prescription_id) {
       message.error("Prescription ID not found");
@@ -348,19 +337,15 @@ const EditPrescriptionPage: React.FC<Props> = ({ consultationId }): JSX.Element 
     const url = `${ALL_API_OBJECT["download-prescription-pdf"]}/${prescription.prescription_id}`;
     console.log('Downloading PDF from:', url);
     
-    // Show loading message
     const hideLoading = message.loading('Downloading prescription PDF...', 0);
     
     try {
-      // Open the PDF in a new tab
       const newWindow = window.open(url, '_blank');
       
-      // Check if the window was successfully opened
       if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
         message.error('Pop-up blocked! Please allow pop-ups for this site.');
       }
       
-      // Hide loading after a short delay
       setTimeout(() => {
         hideLoading();
       }, 1000);
@@ -434,7 +419,6 @@ const EditPrescriptionPage: React.FC<Props> = ({ consultationId }): JSX.Element 
         }
       }}>
         <Form.Item name="chief_complaints" label="Chief Complaint">
-          {/* Multi-value input for chief complaints */}
           <Select
             mode="tags"
             style={{ width: '100%' }}
@@ -445,12 +429,7 @@ const EditPrescriptionPage: React.FC<Props> = ({ consultationId }): JSX.Element 
           />
         </Form.Item>
 
-        {/* <Form.Item name="other_complaints" label="Other Complaints">
-          <Input.TextArea placeholder="Enter other complaints" rows={3} />
-        </Form.Item> */}
-
         <Form.Item name="drug_allergies" label="Drug Allergies">
-          {/* Multi-value input for drug allergies */}
           <Select
             mode="tags"
             style={{ width: '100%' }}
@@ -466,7 +445,6 @@ const EditPrescriptionPage: React.FC<Props> = ({ consultationId }): JSX.Element 
         </Form.Item>
 
         <Form.Item name="lab" label="Lab Test">
-          {/* Multi-value input for lab tests */}
           <Select
             mode="tags"
             style={{ width: '100%' }}
@@ -477,12 +455,7 @@ const EditPrescriptionPage: React.FC<Props> = ({ consultationId }): JSX.Element 
           />
         </Form.Item>
 
-        {/* <Form.Item name="other_lab" label="Other Lab">
-          <Input placeholder="Enter other lab name" />
-        </Form.Item> */}
-
         <Form.Item name="instructions" label="Instructions">
-          {/* Multi-value input for instructions */}
           <Select
             mode="tags"
             style={{ width: '100%' }}
@@ -497,27 +470,8 @@ const EditPrescriptionPage: React.FC<Props> = ({ consultationId }): JSX.Element 
           <DatePicker style={{ width: "100%" }} />
         </Form.Item>
 
-        {/* <Form.Item name="preventive_advice" label="Preventive Advice">
-          <Input.TextArea placeholder="Enter preventive advice" rows={3} />
-        </Form.Item> */}
-        {/* <Form.Item name="preventive_advice" label="Preventive Advice">
-          <Select
-            mode="tags"
-            style={{ width: '100%' }}
-            placeholder="Enter preventive advice"
-            aria-label="Preventive Advice"
-            tabIndex={0}
-            allowClear
-          />
-        </Form.Item> */}
-
-        {/* <Form.Item name="prescription_slip_text" label="Prescription Slip Text">
-          <Input.TextArea placeholder="Enter prescription slip text" rows={3} />
-        </Form.Item> */}
-
         <h3>Vitals</h3>
 
-        {/** ✅ Vitals section */}
         <div style={{ padding: "15px", border: "1px solid #f0f0f0", borderRadius: "5px", marginBottom: "20px" }}>
           <Form.Item name={["vitals", "temperature"]} label="Temperature">
             <Input placeholder="Enter temperature" />
@@ -560,7 +514,6 @@ const EditPrescriptionPage: React.FC<Props> = ({ consultationId }): JSX.Element 
           </Form.Item>
         </div>
 
-        {/** ✅ Medicines Table */}
         <h3>Prescribed Medicines</h3>
         <Table
           columns={[

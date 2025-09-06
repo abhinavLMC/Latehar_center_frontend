@@ -3,7 +3,7 @@ import { Table, Space, Button, message } from "antd";
 import { useRouter } from "next/router";
 import moment from "moment";
 import { DownloadOutlined } from "@ant-design/icons";
-import { JOIN_VIDEO_CALL_ROUTE } from "@constants/AppConstant";
+import { JOIN_VIDEO_CALL_ROUTE, PRESCRIPTION_MANAGEMENT_ROUTE, CONSULTATION_BOOKING_ROUTE } from "@constants/AppConstant";
 import { ALL_API_OBJECT, MOBILE_API_BASE_URL } from "@constants/ApiConstant";
 
 interface Consultation {
@@ -95,6 +95,16 @@ const ConsultationTable: React.FC<Props> = ({ data, loading, statusFilter, onRef
       <Space>
         <Button
           type="link"
+          onClick={() =>
+            router.push(
+              `${PRESCRIPTION_MANAGEMENT_ROUTE}?consultation_id=${record.consultation_id}`
+            )
+          }
+        >
+          Preview Prescription
+        </Button>
+        <Button
+          type="link"
           icon={<DownloadOutlined />}
           onClick={() => handleDownloadPDF(record.prescription_id)}
           aria-label="Download Prescription PDF"
@@ -114,7 +124,7 @@ const ConsultationTable: React.FC<Props> = ({ data, loading, statusFilter, onRef
   };
 
   const joinCallColumn = {
-    title: "Join Call",
+    title: "Actions",
     key: "actions",
     render: (_: any, record: Consultation) => (
       <Space>
@@ -137,6 +147,18 @@ const ConsultationTable: React.FC<Props> = ({ data, loading, statusFilter, onRef
         >
           Join Call
         </Button>
+        )}
+        {statusFilter === "completed" && (
+          <Button
+            type="link"
+            onClick={() =>
+              router.push(
+                `${CONSULTATION_BOOKING_ROUTE}?requestId=${record.request_id}&driver_id=${record.driver_id}&consultation_id=${record.consultation_id}`
+              )
+            }
+          >
+            Reschedule Consultation
+          </Button>
         )}
       </Space>
     ),
