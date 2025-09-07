@@ -64,13 +64,13 @@ const ConsultationTable: React.FC<Props> = ({ data, loading, statusFilter, onRef
 
   const baseColumns = [
     {
-      title: "Driver Name",
+      title: "Patient Name",
       dataIndex: ["consultation_driver", "name"],
       key: "driver_name",
       render: (name: string) => name || "N/A",
     },
     {
-      title: "Driver Contact",
+      title: "Patient Contact",
       dataIndex: ["consultation_driver", "contactNumber"],
       key: "driver_contactNumber",
       render: (contact: string) => contact || "N/A",

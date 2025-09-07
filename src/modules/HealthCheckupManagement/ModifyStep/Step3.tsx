@@ -119,6 +119,12 @@ const Step3 = ({
     fetchData: fetchDoctorList,
   } = useGetRequestHandler();
 
+  // Filter to show only specific doctors
+  const allowedDoctorIds = [49, 50, 51, 52]; // IDs: DR00281, DR00282, DR00283, DR00284
+  const filteredDoctorList = doctorList?.filter((doctor: any) => 
+    allowedDoctorIds.includes(doctor.id)
+  ) || [];
+
   // fetch unit list with package arr
   const pList = [...new Set([...packageArr.flat()])];
   useEffect(() => {
@@ -253,7 +259,7 @@ const Step3 = ({
                 ) : (
                   <SelectWrapper
                     disabled={isSubmitted}
-                    options={doctorList?.map(
+                    options={filteredDoctorList?.map(
                       (obj: {
                         id: any;
                         User: { username: string; id: string };

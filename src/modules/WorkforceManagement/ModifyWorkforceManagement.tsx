@@ -321,7 +321,7 @@ const ModifyWorkForceManagement = () => {
               <Col md={12} span={24}>
                 <CommonUploadWrapper
                   {...{
-                    label: "Photograph of Workforce",
+                    label: "Photograph of Patient",
                     name: "photographOfDriver",
                     id,
                     form,
@@ -358,7 +358,7 @@ const ModifyWorkForceManagement = () => {
 
   return (
     <DynamicPageLayout
-      customTitle={`${addEditTitle(id as string)} Workforce`}
+      customTitle={`${addEditTitle(id as string)} Patient`}
       goBackUrl={BACK_URL}
       MainComp={MainLayout}
     />

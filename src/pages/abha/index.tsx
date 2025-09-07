@@ -157,13 +157,13 @@ const ABHAPage: React.FC = () => {
       <DynamicPageLayout
         MainComp={
           <div style={{ textAlign: 'center', marginTop: '20px' }}>
-            <h2>ABHA Driver Search</h2>
+            <h2>ABHA Patient Search</h2>
 
             {/* Driver Search */}
             <div>
               <input
                 type="text"
-                placeholder="Enter driver's mobile number"
+                placeholder="Enter Patient's mobile number"
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
                 style={{ padding: '10px', width: '300px', marginBottom: '10px' }}
@@ -177,7 +177,7 @@ const ABHAPage: React.FC = () => {
             {/* Display Driver Details */}
             {driverData && (
               <div style={{ marginTop: '20px', textAlign: 'left' }}>
-                <h3>Driver Information</h3>
+                <h3>Patient Information</h3>
                 <p><strong>Name:</strong> {driverData.name || 'N/A'}</p>
                 <p><strong>Health Card Number:</strong> {driverData.healthCardNumber || 'N/A'}</p>
                 <p><strong>Date of Birth/Age:</strong> {driverData.dateOfBirthOrAge || 'N/A'}</p>

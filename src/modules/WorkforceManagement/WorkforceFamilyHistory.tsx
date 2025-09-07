@@ -110,7 +110,7 @@ const WorkforceFamilyHistory = () => {
 
               <Col md={12} span={24}>
                 <FormItemWrapper
-                  label="Workforce Name"
+                  label="Patient Name"
                   name={["driver", "name"]}
                 >
                   <InputWrapper readOnly />
@@ -118,7 +118,7 @@ const WorkforceFamilyHistory = () => {
               </Col>
               <Col md={12} span={24}>
                 <FormItemWrapper
-                  label="Workforce Phone"
+                  label="Patient Phone"
                   name={["driver", "contactNumber"]}
                 >
                   <InputWrapper readOnly />
@@ -220,7 +220,7 @@ const WorkforceFamilyHistory = () => {
 
   return (
     <DynamicPageLayout
-      customTitle={`${addEditTitle(id as string)} Workforce Family`}
+      customTitle={`${addEditTitle(id as string)} Patient Family`}
       goBackUrl={BACK_URL}
       MainComp={MainLayout}
       ActionComp={
@@ -238,7 +238,7 @@ const WorkforceFamilyHistory = () => {
             ]),
             "High BP": data?.familyData?.parent_hypertension ? "Yes" : "No",
             "Low BP": data?.familyData?.parent_hypotension ? "Yes" : "No",
-            "Photograph Of Workforce":
+            "Photograph Of Patient":
               data?.driver?.photographOfDriver || EMPTY_PLACEHOLDER,
           }}
           label={<Button icon={<EyeOutlined />}>View Details</Button>}

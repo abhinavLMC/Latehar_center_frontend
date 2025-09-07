@@ -128,7 +128,7 @@ const WorkforcePersonalHistory = () => {
               <Col md={12} span={24}>
                 <FormItemWrapper name="driver_id" hidden />
                 <FormItemWrapper
-                  label="Workforce Name"
+                  label="Patient Name"
                   name={["driver", "name"]}
                 >
                   <InputWrapper readOnly />
@@ -136,7 +136,7 @@ const WorkforcePersonalHistory = () => {
               </Col>
               <Col md={12} span={24}>
                 <FormItemWrapper
-                  label="Workforce Phone"
+                  label="Patient Phone"
                   name={["driver", "contactNumber"]}
                 >
                   <InputWrapper readOnly />
@@ -314,7 +314,7 @@ const WorkforcePersonalHistory = () => {
 
   return (
     <DynamicPageLayout
-      customTitle={`${addEditTitle(id as string)} Workforce History`}
+      customTitle={`${addEditTitle(id as string)} Patient History`}
       goBackUrl={BACK_URL}
       MainComp={MainLayout}
       ActionComp={
@@ -332,7 +332,7 @@ const WorkforcePersonalHistory = () => {
             ]),
             "High BP": data?.driverPersonalData?.hypertension ? "Yes" : "No",
             "Low BP": data?.driverPersonalData?.hypotension ? "Yes" : "No",
-            "Photograph Of Workforce":
+            "Photograph Of Patient":
               data?.driver?.photographOfDriver || EMPTY_PLACEHOLDER,
           }}
           label={<Button icon={<EyeOutlined />}>View Details</Button>}

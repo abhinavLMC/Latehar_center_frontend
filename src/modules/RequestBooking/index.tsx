@@ -132,7 +132,7 @@ const RequestBooking: React.FC = () => {
         <Space direction="vertical" style={{ width: '100%' }} size="large">
           {/* Driver Search Section */}
           <div>
-            <Text strong>Search Driver by Phone Number</Text>
+            <Text strong>Search Patient by Phone Number</Text>
             <Space.Compact style={{ width: '100%', marginTop: '8px' }}>
               <Input
                 placeholder="Enter 10-digit phone number"

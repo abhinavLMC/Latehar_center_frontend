@@ -1,53 +1,18 @@
 import { postRequest } from "@api/preference/RequestService";
-import Toast from "@components/Common/Toast";
 import {
   FormItemWrapper,
   SelectWrapper,
   InputWrapper,
   ButtonWrapper,
-  UploadWrapper,
   CheckBoxWrapper,
 } from "@components/Wrapper";
 import CommonUploadWrapper from "@components/Wrapper/CommonUploadWrapper";
-import { fieldRules, filterByStatus, getBase64, normFile } from "@utils/commonFunctions";
+import { fieldRules } from "@utils/commonFunctions";
 import { Row, Col, Space, Form, FormInstance, Button } from "antd";
-import { upperCase } from "lodash";
 import React, { useEffect, useState } from "react";
 import {
-  useGetRequestHandler,
   usePostRequestHandler,
 } from "src/hook/requestHandler";
-
-const SHORT_CODE_OPTIONS = [
-  {
-    label: "Driver",
-    value: "DR",
-  },
-  {
-    label: "Worker",
-    value: "WO",
-  },
-  {
-    label: "Employer",
-    value: "EM",
-  },
-  {
-    label: "Contractor",
-    value: "CO",
-  },
-  {
-    label: "Officer",
-    value: "OF",
-  },
-  {
-    label: "Walk in",
-    value: "WA",
-  },
-  {
-    label: "Other",
-    value: "OT",
-  },
-];
 
 interface propTypes {
   mainForm: FormInstance;
@@ -59,27 +24,26 @@ const Step2 = ({ mainForm, setTabKey }: propTypes) => {
   const verifyOption = Form.useWatch("verify_option", mainForm);
   const signatureField = Form.useWatch("signature", mainForm);
 
-  const { data: cetList, fetchData: fetchCetData } = useGetRequestHandler();
-  const { data: workforceTypeList, fetchData: fetchWorkforceType } = useGetRequestHandler();
   const { submit: step2Submit } = usePostRequestHandler();
 
+  // Hardcoded values - using correct IDs and codes from original payload
+  const HARDCODED_CET_ID = 240; // Latehar CET ID
+  const HARDCODED_CET_NAME = "Latehar"; // For display
+  const HARDCODED_WORKFORCE_TYPE = "WR"; // Worker short code
+  const HARDCODED_SHORT_CODE = "LAUNDEFINEDWR"; // Fixed short code
 
   const [isOtpSend, setIsOtpSend] = useState(false);
   const [disableNext, setDisableNext] = useState(true);
   const [btnLoader, setBtnLoader] = useState(false);
-  const [shortCode, setShortCode] = useState('');
 
-
+  // Set hardcoded values on component mount
   useEffect(() => {
-    fetchCetData("/api/cet-list");
-    fetchWorkforceType("/api/workforce-type-list");
+    mainForm.setFieldValue("transpoter", HARDCODED_CET_ID);
+    mainForm.setFieldValue("patient_type", HARDCODED_WORKFORCE_TYPE);
+    
+    // Set hardcoded short code
+    mainForm.setFieldValue("short_code", HARDCODED_SHORT_CODE);
   }, []);
-
-  // generate shor code behalf on workforce type and CET selection
-    useEffect(() => {
-      const sCode = `${shortCode}${patientType}`;
-      mainForm.setFieldValue("short_code", sCode?.toUpperCase());
-    }, [patientType, shortCode]);
 
   const sendOtpHandler = async () => {
     try {
@@ -148,40 +112,13 @@ const Step2 = ({ mainForm, setTabKey }: propTypes) => {
 
   return (
     <Row gutter={16}>
-      <Col md={13} span={24}>
-        <FormItemWrapper
-          name="transpoter"
-          label="Select CET"
-          rules={fieldRules()}
-        >
-          <SelectWrapper
-            options={cetList?.map(
-              (obj: { short_code: string; name: string; id: string }) => ({
-                label: obj?.name,
-                value: obj?.id,
-                title: obj?.short_code,
-              })
-            )}
-            onChange={(_, obj: any) => setShortCode(obj?.title)}
-          />
-        </FormItemWrapper>
-      </Col>
-      <Col md={13} span={24}>
-        <FormItemWrapper
-          name="patient_type"
-          label="Workforce Type"
-          rules={fieldRules()}
-        >
-          <SelectWrapper
-            options={filterByStatus(workforceTypeList, "isActive")?.map(
-              (obj: { full_name: string; short_name: string }) => ({
-                label: obj?.full_name,
-                value: obj?.short_name,
-              })
-            )}
-          />
-        </FormItemWrapper>
-      </Col>
+      {/* Hidden fields - values are set programmatically */}
+      <FormItemWrapper name="transpoter" hidden>
+        <InputWrapper />
+      </FormItemWrapper>
+      <FormItemWrapper name="patient_type" hidden>
+        <InputWrapper />
+      </FormItemWrapper>
       {patientType === "DR" && (
         <Col md={13} span={24}>
           <FormItemWrapper

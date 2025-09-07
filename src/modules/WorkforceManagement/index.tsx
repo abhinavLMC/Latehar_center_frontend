@@ -135,7 +135,7 @@ const CenterUser = () => {
                 "Abha Number": obj?.abhaNumber || EMPTY_PLACEHOLDER,
                 "Contact Number": obj?.contactNumber || EMPTY_PLACEHOLDER,
                 "Date Of Birth": obj?.dateOfBirthOrAge || EMPTY_PLACEHOLDER,
-                "Attachment Of Workforce":
+                "Attachment Of Patient":
                   obj?.photographOfDriver || EMPTY_PLACEHOLDER,
                 "Emergency Contact Name":
                   obj?.emergencyContactName || EMPTY_PLACEHOLDER,

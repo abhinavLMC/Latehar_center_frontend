@@ -49,11 +49,11 @@ const Step1 = ({ mainForm, setTabKey, getDetails }: propTypes) => {
       setDetails(restData);
       getDetails && getDetails(restData);
 
-      // Fetch health history using 'id' instead of 'driverId'
-      const driverId = restData?.driverId || restData?.id;  // Fallback to 'id' if 'driverId' is null
-      console.log('Driver ID:', driverId);  // Logging to check if driverId or id is available
-      if (driverId) {
-        fetchHistoryData("/api/health-checkup-history", { id: driverId });
+      // Fetch health history using 'id' instead of 'patientId'
+      const patientId = restData?.driverId || restData?.id;  // Fallback to 'id' if 'driverId' is null
+      console.log('Patient ID:', patientId);  // Logging to check if patientId or id is available
+      if (patientId) {
+        fetchHistoryData("/api/health-checkup-history", { id: patientId });
       }
     } else {
       setDetails(null);
@@ -68,10 +68,27 @@ const Step1 = ({ mainForm, setTabKey, getDetails }: propTypes) => {
     console.log("History loading:", historyLoading);  // Add this line
   }, [historyLoading]);
 
+  // Transform field names to replace "driver" with "patient"
+  const transformDetails = (data: any) => {
+    if (!data) return data;
+    const transformed = { ...data };
+    
+    // Replace field names containing "driver" with "patient"
+    Object.keys(transformed).forEach(key => {
+      if (key.toLowerCase().includes('driver')) {
+        const newKey = key.replace(/driver/gi, 'patient');
+        transformed[newKey] = transformed[key];
+        delete transformed[key];
+      }
+    });
+    
+    return transformed;
+  };
+
   const showDetails = details ? (
     <RenderDetailsComponent
-      details={{ "LMC ID": details?.external_id, ...details }}
-      excludeItems={["createdBy", "external_id", "driverId", "id"]}
+      details={{ "LMC ID": details?.external_id, ...transformDetails(details) }}
+      excludeItems={["createdBy", "external_id", "driverId", "patientId", "id"]}
     />
   ) : (
     <div className="border rounded-2 p-4">
