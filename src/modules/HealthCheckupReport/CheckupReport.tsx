@@ -206,7 +206,7 @@ const CheckupReport = ({
         : NA,
     },
     {
-      key: "Name of transporter",
+      key: "Name of District",
       value: mainObj?.CETMANAGEMENT?.name || NA,
     },
     {
@@ -365,16 +365,57 @@ const CheckupReport = ({
               <div className="report">
                 <Col span={24}>
                   <div className="report-header">
-                    <Row>
-                      <Col span={6}>
-                        <div className="brand_image">
-                          <img
-                            src="/images/LMC_logo.png"
-                            className="brand-logo"
-                          />
-                        </div>
+                    {/* Logo Section - 2x2 Grid */}
+                    <Row className="mb-4">
+                      <Col span={12}>
+                        <Row>
+                          <Col span={12} className="text-center">
+                            <div className="brand_image">
+                              <img
+                                src="/images/Jharkhand-Sarkar-logo.png"
+                                className="brand-logo"
+                                style={{ maxHeight: '80px', width: 'auto' }}
+                              />
+                            </div>
+                          </Col>
+                          <Col span={12} className="text-center">
+                            <div className="brand_image">
+                              <img
+                                src="/images/LMC_logo.png"
+                                className="brand-logo"
+                                style={{ maxHeight: '80px', width: 'auto' }}
+                              />
+                            </div>
+                          </Col>
+                        </Row>
                       </Col>
-                      <Col span={14} className="text-center">
+                      <Col span={12}>
+                        <Row>
+                          <Col span={12} className="text-center">
+                            <div className="brand_image">
+                              <img
+                                src="/images/NHM.png"
+                                className="brand-logo"
+                                style={{ maxHeight: '80px', width: 'auto' }}
+                              />
+                            </div>
+                          </Col>
+                          <Col span={12} className="text-center">
+                            <div className="brand_image">
+                              <img
+                                src="/images/PMKKKY_Logo.png"
+                                className="brand-logo"
+                                style={{ maxHeight: '80px', width: 'auto' }}
+                              />
+                            </div>
+                          </Col>
+                        </Row>
+                      </Col>
+                    </Row>
+                    
+                    {/* Center Details */}
+                    <Row>
+                      <Col span={24} className="text-center">
                         <h2>
                           {centreDetails?.getCenterUserData?.project_name}
                         </h2>
@@ -402,14 +443,6 @@ const CheckupReport = ({
                             {EMERGENCY_CONTACT}{" "}
                           </a>
                         </p>
-                      </Col>
-                      <Col span={4}>
-                        <div className="brand_image d-flex justify-content-end">
-                          <img
-                            src="/images/1Care_Logo.png"
-                            className="brand-logo"
-                          />
-                        </div>
                       </Col>
                     </Row>
                   </div>
@@ -516,7 +549,7 @@ const CheckupReport = ({
                               "/images/no-picture-available.jpg"
                             }
                           />
-                          <p>Signature of 1Care Doctor</p>
+                          <p>Signature of Doctor</p>
                         </div>
                       </Col>
                       <Col span="8"></Col>
@@ -528,7 +561,7 @@ const CheckupReport = ({
                               "/images/no-picture-available.jpg"
                             }
                           />
-                          <p>Signature of 1Care Professional</p>
+                          <p>Signature of Professional</p>
                         </div>
                       </Col>
                     </Row>
