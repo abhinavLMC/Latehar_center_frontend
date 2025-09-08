@@ -45,14 +45,14 @@ const RequestBooking: React.FC = () => {
       const data = await response.json();
       if (data) {
         setDriverDetails(data);
-        message.success(`Driver found: ${data.name}`);
+        message.success(`Patient found: ${data.name}`);
       } else {
-        message.error('No driver found with this phone number');
+        message.error('No Patient found with this phone number');
         setDriverDetails(null);
       }
     } catch (error) {
-      console.error('Error searching for driver:', error);
-      message.error('Failed to search for driver. Please try again.');
+      console.error('Error searching for patient:', error);
+      message.error('Failed to search for patient. Please try again.');
       setDriverDetails(null);
     } finally {
       setSearchingDriver(false);
@@ -61,7 +61,7 @@ const RequestBooking: React.FC = () => {
 
   const onFinish = async (values: any) => {
     if (!driverDetails) {
-      message.error('Please search for a valid driver first');
+      message.error('Please search for a valid patient first');
       return;
     }
 
@@ -155,10 +155,10 @@ const RequestBooking: React.FC = () => {
           {/* Display Driver Details */}
           {driverDetails && (
             <>
-              <Divider orientation="left">Driver Details</Divider>
+              <Divider orientation="left">Patient Details</Divider>
               <Descriptions bordered size="small" column={1}>
-                <Descriptions.Item label="Driver Name">{driverDetails.name}</Descriptions.Item>
-                <Descriptions.Item label="Driver ID">{driverDetails.external_id}</Descriptions.Item>
+                <Descriptions.Item label="Patient Name">{driverDetails.name}</Descriptions.Item>
+                <Descriptions.Item label="Patient ID">{driverDetails.external_id}</Descriptions.Item>
                 <Descriptions.Item label="Phone Number">{driverDetails.contactNumber}</Descriptions.Item>
                 {driverDetails.healthCardNumber && (
                   <Descriptions.Item label="Health Card">{driverDetails.healthCardNumber}</Descriptions.Item>

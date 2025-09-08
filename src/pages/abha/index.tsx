@@ -49,11 +49,11 @@ const ABHAPage: React.FC = () => {
 
     try {
       const response = await fetch(`${BASE_URL}/api/drivers/getUserData?phoneNumber=${phoneNumber}`);
-      if (!response.ok) throw new Error('Driver not found');
+      if (!response.ok) throw new Error('Patient not found');
       const data = await response.json();
       setDriverData(data);
     } catch (err) {
-      setError('Driver not linked. You can still proceed to create an ABHA card.');
+      setError('Patient not linked. You can still proceed to create an ABHA card.');
     } finally {
       setLoading(false);
     }
@@ -174,7 +174,7 @@ const ABHAPage: React.FC = () => {
             </div>
 
             {error && <p style={{ color: 'red' }}>{error}</p>}
-            {/* Display Driver Details */}
+            {/* Display Patient Details */}
             {driverData && (
               <div style={{ marginTop: '20px', textAlign: 'left' }}>
                 <h3>Patient Information</h3>

@@ -17,7 +17,7 @@ export const useUpdateHandler = (endPoint:string)  => {
             if (res.data.status) {
               setData(res.data.data)
               setStatus(true)
-              Toast("success", "", res.data.message);
+              Toast("success", "", "Operation completed successfully");
               callBack && callBack()
             } else {
               Toast("error", "", res.data.message);
@@ -68,8 +68,7 @@ export const usePostRequestHandler = (
         setData(res.data.data);
         setStatus(true);
         
-          
-        successToast ? Toast("success", "", res.data.message) : null;
+        successToast ? Toast("success", "", "Patient added successfully") : null;
         goBack && Router.push(goBack);
         callBack && callBack();
         // added for get the data after submit
@@ -122,7 +121,7 @@ export const useGetRequestHandler = (
       if (res.data.status) {
         setData(res.data.data);
         setStatus(true);
-        successToast ? Toast("success", "", res.data.message) : null;
+        successToast ? Toast("success", "", "Data fetched successfully") : null;
       } else {
         setData(null);
         failToast ? Toast("error", "", res?.data?.message?.length > 0 ? res?.data?.message : 'Something Went Wrong') : null;
