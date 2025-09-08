@@ -134,7 +134,7 @@ const Step2 = ({ mainForm, setTabKey }: propTypes) => {
         <FormItemWrapper
           name="verify_option"
           label="Verify By"
-          initialValue={"by_mobile"}
+          initialValue={"by_signature"}
         >
           <SelectWrapper
             options={[
