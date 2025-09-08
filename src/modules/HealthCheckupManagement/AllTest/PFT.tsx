@@ -30,10 +30,10 @@ const PFT = ({ loading, data, form }: TestPropTypes) => {
                   name={["selected_test", fieldName, "value"]}
                   rules={[
                     ...getVitalValidationRules('pulmonary_function_test'),
-                    {
-                      required: true,
-                      message: 'Please enter PFT value'
-                    }
+                    // {
+                    //   required: true,
+                    //   message: 'Please enter PFT value'
+                    // }
                   ]}
                   validateTrigger={['onChange', 'onBlur']}
                 >

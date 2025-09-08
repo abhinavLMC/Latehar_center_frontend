@@ -30,10 +30,10 @@ const Haemoglobin = ({ loading, data, form }: TestPropTypes) => {
                   name={["selected_test", fieldName, "value"]}
                   rules={[
                     ...getVitalValidationRules('haemoglobin'),
-                    {
-                      required: true,
-                      message: 'Please enter haemoglobin value'
-                    }
+                    // {
+                    //   required: true,
+                    //   message: 'Please enter haemoglobin value'
+                    // }
                   ]}
                   validateTrigger={['onChange', 'onBlur']}
                 >
