@@ -32,7 +32,7 @@ const Temperature = ({ loading, data, form }: TestPropTypes) => {
                   rules={[
                     ...getVitalValidationRules('temperature'),
                     {
-                      required: true,
+                      required: false,
                       message: 'Please enter temperature'
                     }
                   ]}

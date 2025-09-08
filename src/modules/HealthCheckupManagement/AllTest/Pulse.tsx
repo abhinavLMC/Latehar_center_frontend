@@ -34,7 +34,7 @@ const Pulse = ({ loading, data, form }: TestPropTypes) => {
                   rules={[
                     ...getVitalValidationRules('pulse'),
                     {
-                      required: true,
+                      required: false,
                       message: 'Please enter pulse value'
                     }
                   ]}

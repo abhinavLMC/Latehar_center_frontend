@@ -45,7 +45,7 @@ const BloodPressure = ({ loading, data, form }: TestPropTypes) => {
                   rules={[
                     ...getVitalValidationRules('blood_pressure', 'systolic'),
                     {
-                      required: true,
+                      required: false,
                       message: 'Please enter systolic blood pressure'
                     }
                   ]}
@@ -70,7 +70,7 @@ const BloodPressure = ({ loading, data, form }: TestPropTypes) => {
                   rules={[
                     ...getVitalValidationRules('blood_pressure', 'diastolic'),
                     {
-                      required: true,
+                      required: false,
                       message: 'Please enter diastolic blood pressure'
                     }
                   ]}

@@ -32,7 +32,7 @@ const SPO2 = ({ loading, data, form }: TestPropTypes) => {
                   rules={[
                     ...getVitalValidationRules('spo2'),
                     {
-                      required: true,
+                      required: false,
                       message: 'Please enter SPO2 value'
                     }
                   ]}

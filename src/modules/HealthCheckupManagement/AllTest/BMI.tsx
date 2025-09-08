@@ -95,23 +95,23 @@ const BMI = ({ loading, data, form, id }: TestPropTypes) => {
                   name={["selected_test", fieldName, "weight"]}
                   rules={[
                     {
-                      required: true,
+                      required: false,
                       message: 'Please enter weight'
                     },
-                    {
-                      validator: async (_, value) => {
-                        if (value) {
-                          const weight = parseFloat(value);
-                          if (isNaN(weight)) {
-                            return Promise.reject(new Error('Please enter a valid number'));
-                          }
-                          if (weight < 20 || weight > 200) {
-                            return Promise.reject(new Error('Weight should be between 20 kg and 200 kg'));
-                          }
-                        }
-                        return Promise.resolve();
-                      }
-                    }
+                    // {
+                    //   validator: async (_, value) => {
+                    //     if (value) {
+                    //       const weight = parseFloat(value);
+                    //       if (isNaN(weight)) {
+                    //         return Promise.reject(new Error('Please enter a valid number'));
+                    //       }
+                    //       if (weight < 20 || weight > 200) {
+                    //         return Promise.reject(new Error('Weight should be between 20 kg and 200 kg'));
+                    //       }
+                    //     }
+                    //     return Promise.resolve();
+                    //   }
+                    // }
                   ]}
                   validateTrigger={['onChange', 'onBlur']}
                 >
@@ -127,9 +127,9 @@ const BMI = ({ loading, data, form, id }: TestPropTypes) => {
                 <Form.Item
                   label={`Units (${data?.bmi_units})`}
                   name={["selected_test", fieldName, "value"]}
-                  rules={[
-                    ...getVitalValidationRules('bmi')
-                  ]}
+                  // rules={[
+                  //   ...getVitalValidationRules('bmi')
+                  // ]}
                 >
                   <InputWrapper readOnly />
                 </Form.Item>
