@@ -11,6 +11,7 @@ import { useReactToPrint } from "react-to-print";
 import { usePostRequestHandler } from "src/hook/requestHandler";
 import { ReportType } from "./type";
 import SignatureImage from "./SignatureImage";
+import CompressedLogo from "./CompressedLogo";
 import { calculateAge } from "@utils/commonFunctions";
 
 interface tableDataType {
@@ -47,8 +48,8 @@ const CheckupReport = ({
   const packageDetails = data?.packageMetaData as ReportType["packageMetaData"];
   const mainObj = data?.drivers as ReportType["drivers"];
 
-  const SUPPORT_EMAIL = "info@lastmilecare.in";
-  const EMERGENCY_CONTACT = "+91 80921 02102";
+  const SUPPORT_EMAIL = "lastmilecarebarikhap@lastmilecare.in";
+  const EMERGENCY_CONTACT = "+91 77803 14342";
   const NA = "N/A";
 
   const componentRef = useRef<HTMLDivElement>(null);
@@ -109,27 +110,42 @@ const CheckupReport = ({
    */
   const generatePdf = (base64 = false) => {
     return new Promise((resolve, reject) => {
-      const doc = new jsPDF("p", "px", [1500, 1900], false);
+      // Use A4 with compression and mm units for predictable sizing
+      const doc = new jsPDF({ orientation: "p", unit: "mm", format: "a4", compress: true });
       const content = componentRef.current;
-      if (content) {
-        doc.html(content as unknown as HTMLElement, {
-          callback: function (doc) {
-            if (base64) {
-              const base64String = doc.output("datauristring");
-              resolve(base64String);
-            } else {
-              doc.save(`${reportFileName}-report.pdf`);
-              resolve(null);
-            }
-          },
-          x: 35,
-          margin: [50, 0], // for page up and bottom margin
-          windowWidth: 1420,
-          width: 1420
-        });
-      } else {
-        reject(new Error("Content not found"));
-      }
+      if (!content) return reject(new Error("Content not found"));
+
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const leftRightMargin = 8;  // mm
+      const topBottomMargin = 10; // mm
+
+      doc.html(content as unknown as HTMLElement, {
+        callback: function (doc) {
+          if (base64) {
+            const base64String = doc.output("datauristring");
+            resolve(base64String);
+          } else {
+            doc.save(`${reportFileName}-report.pdf`);
+            resolve(null);
+          }
+        },
+        x: leftRightMargin,
+        y: topBottomMargin,
+        margin: [topBottomMargin, leftRightMargin, topBottomMargin, leftRightMargin],
+        // Render at A4 width (approx 794 px at 96dpi) and low scale to reduce raster size
+        windowWidth: 794,
+        width: pageWidth - leftRightMargin * 2,
+        html2canvas: {
+          scale: 0.6, // Reduce scale to 60% for smaller file size
+          useCORS: true,
+          allowTaint: false,
+          backgroundColor: "#ffffff",
+          logging: false, // Disable logging for better performance
+          imageTimeout: 0,
+          removeContainer: true,
+          foreignObjectRendering: false, // Better compression
+        },
+      });
     });
   };
 
@@ -360,62 +376,29 @@ const CheckupReport = ({
         />
       ) : (
         <>
-          <div ref={componentRef} className="pdf-content">
+          <div ref={componentRef} className="pdf-content" style={{
+            fontSize: '11px',
+            lineHeight: '1.3',
+            fontFamily: 'Arial, sans-serif',
+            color: '#000000',
+            backgroundColor: '#ffffff'
+          }}>
             <Row>
               <div className="report">
                 <Col span={24}>
                   <div className="report-header">
-                    {/* Logo Section - 2x2 Grid */}
-                    <Row className="mb-4">
-                      <Col span={12}>
-                        <Row>
-                          <Col span={12} className="text-center">
-                            <div className="brand_image">
-                              <img
-                                src="/images/Jharkhand-Sarkar-logo.png"
-                                className="brand-logo"
-                                style={{ maxHeight: '80px', width: 'auto' }}
-                              />
-                            </div>
-                          </Col>
-                          <Col span={12} className="text-center">
-                            <div className="brand_image">
-                              <img
-                                src="/images/LMC_logo.png"
-                                className="brand-logo"
-                                style={{ maxHeight: '80px', width: 'auto' }}
-                              />
-                            </div>
-                          </Col>
-                        </Row>
-                      </Col>
-                      <Col span={12}>
-                        <Row>
-                          <Col span={12} className="text-center">
-                            <div className="brand_image">
-                              <img
-                                src="/images/NHM.png"
-                                className="brand-logo"
-                                style={{ maxHeight: '80px', width: 'auto' }}
-                              />
-                            </div>
-                          </Col>
-                          <Col span={12} className="text-center">
-                            <div className="brand_image">
-                              <img
-                                src="/images/PMKKKY_Logo.png"
-                                className="brand-logo"
-                                style={{ maxHeight: '80px', width: 'auto' }}
-                              />
-                            </div>
-                          </Col>
-                        </Row>
-                      </Col>
-                    </Row>
-                    
-                    {/* Center Details */}
                     <Row>
-                      <Col span={24} className="text-center">
+                      <Col span={6}>
+                        <div className="brand_image">
+                          <CompressedLogo
+                            imageUrl="/images/Jharkhand-Sarkar-logo.png"
+                            alt="Jharkhand Sarkar Logo"
+                            className="brand-logo"
+                            style={{ maxWidth: 160, height: "auto" }}
+                          />
+                        </div>
+                      </Col>
+                      <Col span={14} className="text-center">
                         <h2>
                           {centreDetails?.getCenterUserData?.project_name}
                         </h2>
@@ -427,28 +410,41 @@ const CheckupReport = ({
                           {", "}
                           {centreDetails?.getCenterUserData?.project_state}
                         </p>
-                        <p className="mb-0">
+                        {/* <p className="mb-0">
                           Phone:{" "}
                           {centreDetails?.getCenterUserData
                             ?.agency_spoc_contact_number || NA}
-                        </p>
+                        </p> */}
                         <p className="mb-0">
                           Email us:{" "}
                           <a href={`mailto:${SUPPORT_EMAIL}`}>
                             {SUPPORT_EMAIL}
                           </a>{" "}
-                          || Contact us:{" "}
+                          
+                        </p>
+                        <p className="mb-0">
+                          Contact us:{" "}
                           <a href={`tel:${EMERGENCY_CONTACT}`}>
                             {" "}
                             {EMERGENCY_CONTACT}{" "}
                           </a>
                         </p>
                       </Col>
+                      <Col span={4}>
+                        <div className="brand_image d-flex justify-content-end">
+                          <CompressedLogo
+                            imageUrl="/images/NHM.png"
+                            alt="NHM Logo"
+                            className="brand-logo"
+                            style={{ maxWidth: 160, height: "auto" }}
+                          />
+                        </div>
+                      </Col>
                     </Row>
                   </div>
                   <p className="mt-3">
                     It is to certify that{" "}
-                    {centreDetails?.getCenterUserData?.project_name} run by Last
+                    {centreDetails?.getCenterUserData?.project_name} assisted by Last
                     Mile Care Pvt Ltd has conducted{" "}
                     <strong>
                       {packageDetails?.getPackageData
@@ -567,7 +563,7 @@ const CheckupReport = ({
                     </Row>
                   </div>
                   <div className="report-footer mt-4">
-                    <p className="mt-3 fs-6 d-block">
+                    {/* <p className="mt-3 fs-6 d-block">
                       <strong>DECLARATION:</strong> I/We hereby agree and
                       declare that the medical health checkup statements and
                       reports will be generated based on the devices and medical
@@ -589,7 +585,7 @@ const CheckupReport = ({
                       form after signing this declaration and before the
                       acceptance of risk and revival of the drivers or riders by
                       the Company.
-                    </p>
+                    </p> */}
                     <p className="fs-6 d-block mt-3">
                       <strong>DISCLAIMER:</strong> The tests have been conducted
                       in a closed environment with a qualified professional, and
