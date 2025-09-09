@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, Space, Button, message } from "antd";
+import { Table, Space, Button, message, Tooltip } from "antd";
 import { useRouter } from "next/router";
 import moment from "moment";
 import { DownloadOutlined } from "@ant-design/icons";
@@ -23,6 +23,7 @@ interface Consultation {
   room_name: string
   meet_link:string
   centerID?: number;
+  isReady?: boolean;
 }
 
 interface Props {
@@ -103,22 +104,27 @@ const ConsultationTable: React.FC<Props> = ({ data, loading, statusFilter, onRef
         >
           Preview Prescription
         </Button>
-        <Button
-          type="link"
-          icon={<DownloadOutlined />}
-          onClick={() => handleDownloadPDF(record.prescription_id)}
-          aria-label="Download Prescription PDF"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              handleDownloadPDF(record.prescription_id);
-            }
-          }}
-          disabled={!record.prescription_id}
-        >
-          Download PDF
-        </Button>
+        <Tooltip title={record.isReady === false ? "Prescription is not ready" : ""}>
+          <Button
+            type="link"
+            icon={<DownloadOutlined />}
+            onClick={() => handleDownloadPDF(record.prescription_id)}
+            aria-label="Download Prescription PDF"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                handleDownloadPDF(record.prescription_id);
+              }
+            }}
+            disabled={!record.prescription_id || record.isReady === false}
+            style={{
+              color: record.isReady === false ? '#d9d9d9' : undefined
+            }}
+          >
+            Download PDF
+          </Button>
+        </Tooltip>
       </Space>
     ),
   };

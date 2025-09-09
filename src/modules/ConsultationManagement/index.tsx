@@ -26,6 +26,7 @@ interface Consultation {
   room_name: string
   meet_link:string
   centerID?: number;
+  isReady?: boolean;
 }
 
 const ConsultationManagement: React.FC = () => {
@@ -83,7 +84,8 @@ const ConsultationManagement: React.FC = () => {
                   const prescriptionData = await prescriptionResponse.json();
                   return {
                     ...consultation,
-                    prescription_id: prescriptionData.prescription_id
+                    prescription_id: prescriptionData.prescription_id,
+                    isReady: prescriptionData.isReady
                   };
                 }
               } catch (error) {
