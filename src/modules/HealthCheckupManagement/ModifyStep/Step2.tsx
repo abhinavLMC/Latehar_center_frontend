@@ -23,6 +23,7 @@ const Step2 = ({ mainForm, setTabKey }: propTypes) => {
   const patientType = Form.useWatch("patient_type", mainForm);
   const verifyOption = Form.useWatch("verify_option", mainForm);
   const signatureField = Form.useWatch("signature", mainForm);
+  const acceptTermCondition = Form.useWatch("accept_term_condition", mainForm);
 
   const { submit: step2Submit } = usePostRequestHandler();
 
@@ -68,7 +69,8 @@ const Step2 = ({ mainForm, setTabKey }: propTypes) => {
       });
 
       if (res?.data.status) {
-        setDisableNext(false);
+        // Only enable next if terms and conditions are also accepted
+        setDisableNext(!acceptTermCondition);
       } else {
         setDisableNext(true);
       }
@@ -78,12 +80,19 @@ const Step2 = ({ mainForm, setTabKey }: propTypes) => {
   };
 
   useEffect(() => {
-    if (verifyOption !== 'by_mobile') {
-      setDisableNext(false)
-    } else {
-      setDisableNext(true)
+    // Check if terms and conditions are accepted
+    if (!acceptTermCondition) {
+      setDisableNext(true);
+      return;
     }
-  }, [verifyOption]);
+
+    // If verification is by mobile, check OTP verification status
+    if (verifyOption === 'by_mobile') {
+      setDisableNext(true); // Will be set to false only after OTP verification
+    } else {
+      setDisableNext(false);
+    }
+  }, [verifyOption, acceptTermCondition]);
 
 
   const [buttonLoader, setButtonLoader] = useState(false);
@@ -198,7 +207,12 @@ const Step2 = ({ mainForm, setTabKey }: propTypes) => {
       <Col md={13} span={24}>
         <FormItemWrapper
           name="accept_term_condition"
-          rules={fieldRules()}
+          rules={[
+            {
+              validator: (_, value) =>
+                value ? Promise.resolve() : Promise.reject(new Error('You must accept the terms and conditions to proceed')),
+            },
+          ]}
           valuePropName="checked"
         >
           <CheckBoxWrapper>

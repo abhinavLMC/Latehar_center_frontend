@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Form, Input, InputNumber, Button, Card, message, Space, Typography, Divider, Descriptions } from 'antd';
+import { Form, Input, InputNumber, Button, Card, message, Space, Typography, Divider, Descriptions, List, Radio, Avatar } from 'antd';
 import { useRouter } from 'next/router';
 import { v4 as uuidv4 } from 'uuid';
 import { MOBILE_API_BASE_URL } from '@constants/ApiConstant';
-import { SearchOutlined } from '@ant-design/icons';
+import { SearchOutlined, UserOutlined } from '@ant-design/icons';
 import { fetchCenterId, RequestPayload } from '@utils/centerIdHandler';
 
 const { Text } = Typography;
@@ -26,6 +26,8 @@ const RequestBooking: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [searchingDriver, setSearchingDriver] = useState(false);
   const [driverDetails, setDriverDetails] = useState<DriverDetails | null>(null);
+  const [driverList, setDriverList] = useState<DriverDetails[]>([]);
+  const [selectedDriverId, setSelectedDriverId] = useState<number | null>(null);
   const [phoneNumber, setPhoneNumber] = useState('');
 
   const searchDriver = async () => {
@@ -39,29 +41,35 @@ const RequestBooking: React.FC = () => {
       const response = await fetch(`${MOBILE_API_BASE_URL}/api/drivers/getUserData?phoneNumber=${phoneNumber}`);
       
       if (!response.ok) {
-        throw new Error('Failed to find driver');
+        throw new Error('Failed to find drivers');
       }
 
       const data = await response.json();
-      if (data) {
-        setDriverDetails(data);
-        message.success(`Patient found: ${data.name}`);
-      } else {
-        message.error('No Patient found with this phone number');
+      if (data && Array.isArray(data) && data.length > 0) {
+        setDriverList(data);
+        setSelectedDriverId(null);
         setDriverDetails(null);
+        message.success(`Found ${data.length} patient(s) with this phone number`);
+      } else {
+        message.error('No patients found with this phone number');
+        setDriverList([]);
+        setDriverDetails(null);
+        setSelectedDriverId(null);
       }
     } catch (error) {
-      console.error('Error searching for patient:', error);
-      message.error('Failed to search for patient. Please try again.');
+      console.error('Error searching for patients:', error);
+      message.error('Failed to search for patients. Please try again.');
+      setDriverList([]);
       setDriverDetails(null);
+      setSelectedDriverId(null);
     } finally {
       setSearchingDriver(false);
     }
   };
 
   const onFinish = async (values: any) => {
-    if (!driverDetails) {
-      message.error('Please search for a valid patient first');
+    if (!selectedDriverId) {
+      message.error('Please select a patient first');
       return;
     }
 
@@ -82,7 +90,7 @@ const RequestBooking: React.FC = () => {
       // Prepare the payload with center ID
       const payload: RequestPayload = {
         request_id: uuidv4(),
-        driver_id: driverDetails.id,
+        driver_id: selectedDriverId,
         centerID: centerId,
         status: false,
         preferred_time: `${values.preferred_time} hour${values.preferred_time > 1 ? 's' : ''}`,
@@ -103,6 +111,8 @@ const RequestBooking: React.FC = () => {
         message.success('Request booked successfully!', 3);
         form.resetFields();
         setDriverDetails(null);
+        setDriverList([]);
+        setSelectedDriverId(null);
         setPhoneNumber('');
       } else {
         message.error(data?.message || 'Failed to book request.', 3);
@@ -120,9 +130,19 @@ const RequestBooking: React.FC = () => {
     // Only allow numeric input and maximum 10 digits
     if (/^\d*$/.test(value) && value.length <= 10) {
       setPhoneNumber(value);
-      if (driverDetails) {
-        setDriverDetails(null); // Reset driver details when phone number changes
+      if (driverList.length > 0 || driverDetails || selectedDriverId) {
+        setDriverList([]);
+        setDriverDetails(null);
+        setSelectedDriverId(null);
       }
+    }
+  };
+
+  const handleDriverSelection = (driverId: number) => {
+    setSelectedDriverId(driverId);
+    const selectedDriver = driverList.find(driver => driver.id === driverId);
+    if (selectedDriver) {
+      setDriverDetails(selectedDriver);
     }
   };
 
@@ -152,29 +172,55 @@ const RequestBooking: React.FC = () => {
             </Space.Compact>
           </div>
 
-          {/* Display Driver Details */}
-          {driverDetails && (
+          {/* Display Driver List for Selection */}
+          {driverList.length > 0 && (
             <>
-              <Divider orientation="left">Patient Details</Divider>
-              <Descriptions bordered size="small" column={1}>
-                <Descriptions.Item label="Patient Name">{driverDetails.name}</Descriptions.Item>
-                <Descriptions.Item label="Patient ID">{driverDetails.external_id}</Descriptions.Item>
-                <Descriptions.Item label="Phone Number">{driverDetails.contactNumber}</Descriptions.Item>
-                {driverDetails.healthCardNumber && (
-                  <Descriptions.Item label="Health Card">{driverDetails.healthCardNumber}</Descriptions.Item>
-                )}
-                {driverDetails.blood_group && (
-                  <Descriptions.Item label="Blood Group">{driverDetails.blood_group}</Descriptions.Item>
-                )}
-                {(driverDetails.localAddressDistrict || driverDetails.localAddressState) && (
-                  <Descriptions.Item label="Address">
-                    {driverDetails.localAddressDistrict && `${driverDetails.localAddressDistrict}, `}
-                    {driverDetails.localAddressState}
-                  </Descriptions.Item>
-                )}
-              </Descriptions>
+              <Divider orientation="left">Select Patient</Divider>
+              <Radio.Group 
+                value={selectedDriverId} 
+                onChange={(e) => handleDriverSelection(e.target.value)}
+                style={{ width: '100%' }}
+              >
+                <List
+                  dataSource={driverList}
+                  renderItem={(driver) => (
+                    <List.Item>
+                      <Radio value={driver.id} style={{ width: '100%' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+                          <Avatar icon={<UserOutlined />} style={{ marginRight: 12 }} />
+                          <div style={{ flex: 1 }}>
+                            <div style={{ fontWeight: 'bold', marginBottom: 4 }}>
+                              {driver.name}
+                            </div>
+                            <div style={{ fontSize: '12px', color: '#666' }}>
+                              ID: {driver.external_id} | Phone: {driver.contactNumber}
+                            </div>
+                            {driver.healthCardNumber && (
+                              <div style={{ fontSize: '12px', color: '#666' }}>
+                                Health Card: {driver.healthCardNumber}
+                              </div>
+                            )}
+                            {driver.blood_group && (
+                              <div style={{ fontSize: '12px', color: '#666' }}>
+                                Blood Group: {driver.blood_group}
+                              </div>
+                            )}
+                            {(driver.localAddressDistrict || driver.localAddressState) && (
+                              <div style={{ fontSize: '12px', color: '#666' }}>
+                                {driver.localAddressDistrict && `${driver.localAddressDistrict}, `}
+                                {driver.localAddressState}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </Radio>
+                    </List.Item>
+                  )}
+                />
+              </Radio.Group>
             </>
           )}
+
 
           {/* Booking Form */}
           <Form
@@ -207,7 +253,7 @@ const RequestBooking: React.FC = () => {
                 htmlType="submit" 
                 block 
                 loading={loading}
-                disabled={!driverDetails}
+                disabled={!selectedDriverId}
               >
                 Book Request
               </Button>
