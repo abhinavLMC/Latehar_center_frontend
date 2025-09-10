@@ -48,7 +48,7 @@ const CheckupReport = ({
   const packageDetails = data?.packageMetaData as ReportType["packageMetaData"];
   const mainObj = data?.drivers as ReportType["drivers"];
 
-  const SUPPORT_EMAIL = "lastmilecarebarikhap@lastmilecare.in";
+  const SUPPORT_EMAIL = "lastmilecarebarikhap@gmail.com";
   const EMERGENCY_CONTACT = "+91 77803 14342";
   const NA = "N/A";
 
